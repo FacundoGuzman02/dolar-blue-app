@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor Dólar Blue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Conversor de Pesos a Dólar Blue</h1>
+  <input type="number" id="pesos" placeholder="Ingrese pesos argentinos">
+  <button onclick="convertir()">Convertir</button>
+  <div id="resultado"></div>
+
+  <script>
+    function convertir() {
+      fetch("https://api.bluelytics.com.ar/v2/latest")
+        .then((response) => response.json())
+        .then((data) => {
+          const valorBlue = data.blue.value_sell;
+          const pesos = document.getElementById("pesos").value;
+          const dolares = (pesos / valorBlue).toFixed(2);
+          document.getElementById("resultado").innerHTML = `Tenés aproximadamente ${dolares} dólares blue.`;
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById("resultado").innerHTML = "Error al consultar.";
+        });
+    }
+  </script>
+</body>
+</html>
